@@ -1,4 +1,4 @@
-import { Vehicle } from "../models/Vehicle.js";
+import Vehicle from "../models/vehicle.model.js";
 
 export const listVehicles = async (req, res) => {
   const { q } = req.query;

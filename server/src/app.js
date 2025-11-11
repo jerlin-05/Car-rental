@@ -9,8 +9,9 @@ import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import sellerRoutes from "./routes/seller.routes.js";
-// ⬇️ NEW (Week 3)
 import vehicleRoutes from "./routes/vehicle.routes.js";
+import paymentRoutes from "./routes/payment.routes.js";
+
 
 export const createApp = () => {
   const app = express();
@@ -26,7 +27,7 @@ export const createApp = () => {
   app.use(cookieParser());
   app.use(morgan("dev"));
 
-  // Optional root + health
+  // Root + health
   app.get("/", (_req, res) =>
     res.send("Car Rental API is running. See /health for status.")
   );
@@ -37,9 +38,10 @@ export const createApp = () => {
   app.use("/api/users", userRoutes);
   app.use("/api/admin", adminRoutes);
   app.use("/api/seller", sellerRoutes);
-  app.use("/api/vehicles", vehicleRoutes); 
+  app.use("/api/vehicles", vehicleRoutes);
+  app.use("/api/payments", paymentRoutes);
 
-  // 404 for unknown routes (nice for screenshots)
+  // 404
   app.use((req, res, _next) => {
     res.status(404).json({ message: "Route not found" });
   });
