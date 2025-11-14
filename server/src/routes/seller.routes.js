@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { sellerDashboard } from "../controllers/seller.controller.js";
 import { auth } from "../middleware/auth.js";
-import { authorize } from "../middleware/roles.js";
+import { requireSeller } from "../middleware/roles.js";
+import * as sellerController from "../controllers/seller.controller.js";
 
 const router = Router();
 
-router.get("/dashboard", auth, authorize("seller"), sellerDashboard);
+
+router.post("/vehicles", auth, requireSeller, sellerController.createVehicle);
 
 export default router;

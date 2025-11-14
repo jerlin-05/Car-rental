@@ -6,10 +6,9 @@ let stripe = null;
 if (stripeKey) {
   stripe = new Stripe(stripeKey);
 } else {
-  console.warn("⚠️ Stripe not configured (STRIPE_PRIVATE_KEY missing). Payment routes will return 501.");
+  console.warn(" Stripe not configured (STRIPE_PRIVATE_KEY missing). Payment routes will return 501.");
 }
 
-// POST /api/payments/create-session
 export const createCheckoutSession = async (req, res) => {
   if (!stripe) {
     return res.status(501).json({ ok: false, message: "Payments not configured on server." });
@@ -20,7 +19,7 @@ export const createCheckoutSession = async (req, res) => {
     const vehicle = await Vehicle.findById(vehicleId);
     if (!vehicle) return res.status(404).json({ message: "Vehicle not found" });
 
-    const unitAmount = Number(vehicle.pricePerDay || 0) * 100;
+    const unitAmount = Math.round(Number(vehicle.pricePerDay || 0) * 100);
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
