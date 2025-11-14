@@ -1,36 +1,21 @@
-import "dotenv/config"; 
-console.log("server.js: top - dotenv loaded");
+import cors from "cors";
+import express from "express";
+import dotenv from "dotenv";
 
-import { createApp } from "./app.js";
-import { connectDB } from "./config/db.js";
+dotenv.config();
+const app = express();
 
-const PORT = process.env.PORT || 7000;
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.PROD_CLIENT_DOMAIN,
+  "https://car-rental-frontend-seven-xi.vercel.app", 
+].filter(Boolean);
 
-const start = async () => {
-  console.log("start(): beginning");
-  try {
-    console.log("start(): connecting to DB ->", process.env.MONGO_URI || "(no MONGO_URI)");
-    await connectDB(process.env.MONGO_URI);
-    console.log("start(): connectDB resolved");
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 
-    const app = createApp();
-    console.log("start(): app created, now listening on port", PORT);
-
-    
-    const server = app.listen(PORT, () => {
-      console.log(`✓ Server running on http://localhost:${PORT}`);
-    });
-
-   
-    server.on("close", () => {
-      console.log("server: close event emitted");
-    });
-
-    await new Promise(() => {}); 
-  } catch (err) {
-    console.error("start(): fatal error:", err && err.stack ? err.stack : err);
-    
-  }
-};
-
-start();
+app.options("*", cors());
