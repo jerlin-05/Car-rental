@@ -94,17 +94,36 @@ export default function Home() {
         flexWrap: "wrap",
       }}
     >
-      <select className="input">
-        <option>Select Location</option>
-        <option>Bangalore</option>
-        <option>Chennai</option>
-        <option>Hyderabad</option>
-      </select>
+      <select
+  className="input"
+  value={location}
+  onChange={(e) => setLocation(e.target.value)}
+>
+  <option value="">Select Location</option>
+  <option value="Bangalore">Bangalore</option>
+  <option value="Chennai">Chennai</option>
+  <option value="Hyderabad">Hyderabad</option>
+</select>
 
-      <input type="date" className="input" />
-      <input type="date" className="input" />
+<input
+  type="date"
+  className="input"
+  min={today}
+  value={startDate}
+  onChange={(e) => setStartDate(e.target.value)}
+/>
 
-      <button className="btn-primary">Search Cars</button>
+<input
+  type="date"
+  className="input"
+  min={startDate}
+  value={endDate}
+  onChange={(e) => setEndDate(e.target.value)}
+/>
+
+<button className="btn-primary" onClick={handleSearch}>
+  Search Cars
+</button>
     </div>
   </div>
 </div>
